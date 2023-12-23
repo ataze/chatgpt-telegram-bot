@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "chatgpt-telegram-bot"
+version = "0.4.0"
+description = "A Telegram bot that integrates with OpenAI's official ChatGPT, DALL·E and Whisper APIs to provide answers. Ready to use with minimal configuration required."
+authors = ["n3d1117"]
+license = "GPL-2.0-only"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.1"
+python-dotenv = "^1.0.0"
+pydub = "^0.25.1"
+tiktoken = "^0.5.2"
+openai = "^1.5.0"
+python-telegram-bot = "^20.7"
+requests = "^2.31.0"
+tenacity = "^8.2.3"
+wolframalpha = "^5.0.0"
+duckduckgo-search = "^4.1.0"
+spotipy = "^2.23.0"
+pytube = "^15.0.0"
+gtts = "^2.4.0"
+whois = "^0.9.27"
+pillow = "^10.1.0"
+curl-cffi = "^0.5.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
