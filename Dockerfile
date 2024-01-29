@@ -1,31 +1,22 @@
 FROM lwthiker/curl-impersonate:0.5-chrome-alpine AS builder
 
-FROM python:3.12-alpine3.19
+FROM python:3.9-alpine
 
 ENV PYTHONFAULTHANDLER=1 \
      PYTHONUNBUFFERED=1 \
      PYTHONDONTWRITEBYTECODE=1 \
-     PIP_DISABLE_PIP_VERSION_CHECK=on\
-     POETRY_VERSION=1.7.0
+     PIP_DISABLE_PIP_VERSION_CHECK=on
 
 COPY --from=builder /usr/local /usr/local
 
 RUN apk --no-cache add ffmpeg build-base nss ca-certificates
 
 WORKDIR /app
-
-COPY poetry.lock pyproject.toml ./
-RUN pip install --upgrade pip && pip install poetry
-
-RUN poetry config virtualenvs.create false \
-  && poetry install --only main --no-interaction --no-ansi
-
-# I don't like that I have to do this. Not one bit.
-RUN ln -s /etc/ssl/certs/ca-certificates.crt /usr/local/lib/python3.12/site-packages/curl_cffi/cacert.pem
+COPY . .
+RUN pip install -r requirements.txt --no-cache-dir
 
 RUN apk del build-base
 
-WORKDIR /app
-COPY . .
+RUN ln -s /etc/ssl/certs/ca-certificates.crt /usr/local/lib/python3.9/site-packages/curl_cffi/cacert.pem
 
-ENTRYPOINT ["python", "bot/main.py"]
+CMD ["python", "bot/main.py"]
